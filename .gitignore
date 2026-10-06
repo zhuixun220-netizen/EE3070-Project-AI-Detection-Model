@@ -1,0 +1,27 @@
+# Python and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Tests and editor state
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+.DS_Store
+.idea/
+.vscode/
+
+# Local settings and runtime data
+.env
+.env.*
+!.env.example
+/data/*
+!/data/.gitkeep
+security_logs/
+*.log
+*.part
