@@ -3,10 +3,9 @@ from typing import List
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, HTTPException
 import uvicorn
 
-import config
-from yolo_filter import YOLOFilter
-from vllm_client import QwenVLClient
-from decision_engine import DecisionEngine
+from esp32_ai_security.services.yolo_filter import YOLOFilter
+from esp32_ai_security.services.vllm_client import QwenVLClient
+from esp32_ai_security.services.decision_engine import DecisionEngine
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 logger = logging.getLogger("Gateway")
@@ -60,7 +59,7 @@ async def upload_security_frames(
 
     logger.info(f"⚡ [分支 B - 放行] 设备 [{device_id}] YOLO 检出人体目标，已推入后台异步处理队列。")
 
-    # 利用 FastAPI BackgroundTasks 实现异步队列，迅速向 ESP32 返回 HTTP 200，减轻 ESP32 挂起等待压力
+    # 在响应返回后执行进程内后台任务，减轻 ESP32 挂起等待压力
     background_tasks.add_task(async_stage2_pipeline, image_bytes_list, metadata)
 
     return {
@@ -68,6 +67,10 @@ async def upload_security_frames(
         "message": "Person detected. Sent to Qwen2.5-VL for async processing."
     }
 
-if __name__ == "__main__":
-    # 启动 8080 端口接收网关服务
+def run():
+    """Start the gateway from the package or console entry point."""
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
+
+if __name__ == "__main__":
+    run()

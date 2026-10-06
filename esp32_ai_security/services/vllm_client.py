@@ -2,7 +2,7 @@ import base64
 import json
 import logging
 from openai import AsyncOpenAI
-import config
+from esp32_ai_security import config
 
 logger = logging.getLogger("VLLMClient")
 

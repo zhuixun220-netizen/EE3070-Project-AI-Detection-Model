@@ -2,7 +2,7 @@ import io
 import logging
 from PIL import Image
 from ultralytics import YOLO
-import config
+from esp32_ai_security import config
 
 logger = logging.getLogger("YOLOFilter")
 

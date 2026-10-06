@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from datetime import datetime
-import config
+from esp32_ai_security import config
 
 logger = logging.getLogger("DecisionEngine")
 
@@ -45,7 +45,7 @@ class DecisionEngine:
         with open(os.path.join(record_dir, "result.json"), "w", encoding="utf-8") as f:
             json.dump({"metadata": metadata, "analysis": result}, f, ensure_ascii=False, indent=2)
 
-        # 2. 异步存储图片
+        # 2. 保存原始图片
         for idx, img_bytes in enumerate(image_bytes_list):
             with open(os.path.join(record_dir, f"frame_{idx + 1}.jpg"), "wb") as f:
                 f.write(img_bytes)
